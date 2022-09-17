@@ -12,10 +12,13 @@ const genres = [
 
 
 //routes
+
+//responds with list of all genres
 app.get('/api/genres', (req, res) => {
     res.send(genres);
 });
 
+//adds a genre to the list
 app.post('/api/genres', (req, res) => {
     const {error} = validateGenre(req.body);
     if (error) return res.status(400).send(error.details[0].message);
@@ -28,12 +31,25 @@ app.post('/api/genres', (req, res) => {
     res.send(genre);
 });
 
+//updates existing genre
+app.put('/api/genres/:id', (req, res) => {
+    const genre = genres.find(c => c.id === parseInt(req.params.id))
+    if (!genre) res.status(404).send('not found')
+
+    const {error} = validateGenre(req.body)
+    if (error) return res.status(400).send(error.details[0].message)
+
+    genre.name = req.body.name
+    res.send(genre);
+})
+
 
 //input validation function
 function validateGenre(genre) {
     const schema = Joi.object({
         name: Joi.string().min(3).required()
     });
+    console.log(schema.validate(genre))
     return schema.validate(genre);
 };
 
