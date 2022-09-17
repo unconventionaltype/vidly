@@ -3,13 +3,26 @@ const express = require('express');
 
 const app = express();
 const date = new Date();
+app.use(express.json());
 
 //fake database
-const genres = {}
+const genres = [
+    {id: 1, name: 'Comedy'}
+]
+
 
 //routes
 app.get('/api/genres', (req, res) => {
-    res.send(genres)
+    res.send(genres);
+});
+
+get.post('/api/courses', (req, res) => {
+    const genre = {
+        id: courses.length + 1,
+        name: req.body.name
+    };
+    genres.push(genre);
+    res.send(genre);
 });
 
 
