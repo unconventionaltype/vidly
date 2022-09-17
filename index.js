@@ -16,9 +16,9 @@ app.get('/api/genres', (req, res) => {
     res.send(genres);
 });
 
-app.post('/api/courses', (req, res) => {
+app.post('/api/genres', (req, res) => {
     const genre = {
-        id: courses.length + 1,
+        id: genres.length + 1,
         name: req.body.name
     };
     genres.push(genre);
