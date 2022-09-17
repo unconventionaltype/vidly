@@ -8,7 +8,7 @@ app.use(express.json());
 //fake database
 const genres = [
     {id: 1, name: 'Comedy'}
-]
+];
 
 
 //routes
@@ -17,6 +17,9 @@ app.get('/api/genres', (req, res) => {
 });
 
 app.post('/api/genres', (req, res) => {
+    const {error} = validateGenre(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
     const genre = {
         id: genres.length + 1,
         name: req.body.name
@@ -27,15 +30,15 @@ app.post('/api/genres', (req, res) => {
 
 
 //input validation function
-function validateCourse(course) {
-    const schema = {
+function validateGenre(genre) {
+    const schema = Joi.object({
         name: Joi.string().min(3).required()
-    };
-    return Joi.validate(course, schema);
-}
+    });
+    return schema.validate(genre);
+};
 
 //open port listed in environment var PORT or 3000
 const port = process.env.PORT || 3000
 app.listen(port, () => {
-    console.log(`Lisening on port ${port} ${date}...`)
+    console.log(`Lisening on port ${port} ${date}...`);
 });
