@@ -51,4 +51,14 @@ router.delete('/:id', (req, res) => {
     res.send(genre);
 })
 
+
+//input validation function
+function validateGenre(genre) {
+    const schema = Joi.object({
+        name: Joi.string().min(3).required()
+    });
+    console.log(schema.validate(genre))
+    return schema.validate(genre);
+};
+
 module.exports = router;
